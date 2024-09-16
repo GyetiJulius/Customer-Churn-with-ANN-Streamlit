@@ -34,7 +34,7 @@ num_of_products = st.slider('Number of Products')
 has_cr_card = st.selectbox('Has Credit Card', [0,1])
 is_active_member = st.selectbox('Is Active Member', [0,1])
 
-# Prepare  the data
+# Prepare the data
 input_data = pd.DataFrame({
     'Age':[age],
     'Balance':[balance],
@@ -48,21 +48,20 @@ input_data = pd.DataFrame({
 })
 
 # One hot encode 'Geography'
-geo_encoded = geography_one_hot.transform([geography]).toarray()
+geo_encoded = geography_one_hot.transform(np.array([[geography]])).toarray()
 geo_df = pd.DataFrame(geo_encoded, columns = geography_one_hot.get_feature_names_out(['Geography']))
 
 # Combine geography dataframe with the input dataframe
-input_data = pd.concat([input_data.reset_index(drop = True), geo_df], axis = 1)
+input_data = pd.concat([input_data.reset_index(drop=True), geo_df], axis=1)
 
-# Scale the input data
-scaler = StandardScaler()
-input_data_scaled = scaler.fit_transform(input_data)
+# Scale the input data (use loaded scaler without fitting again)
+input_data_scaled = scaler.transform(input_data)
 
 # Predict Churn
 prediction = model.predict(input_data_scaled)
 prediction_probability = prediction[0][0]
 
-# Show preb prob
+# Show probability
 st.write(f"Prediction probability: {prediction_probability:.2f}")
 
 # Output
