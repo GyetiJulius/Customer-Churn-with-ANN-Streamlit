@@ -48,7 +48,7 @@ input_data = pd.DataFrame({
 })
 
 # One hot encode 'Geography'
-geo_encoded = geography_one_hot.transform([[geography]]).toarray()
+geo_encoded = geography_one_hot.transform([geography]).toarray()
 geo_df = pd.DataFrame(geo_encoded, columns = geography_one_hot.get_feature_names_out(['Geography']))
 
 # Combine geography dataframe with the input dataframe
